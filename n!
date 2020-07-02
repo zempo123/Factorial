@@ -1,0 +1,15 @@
+public class 檔案名 {
+
+public static void main(String[] args) {
+    Scanner sac = new Scanner(System.in);
+    int a = sac.nextInt();
+    int count =1;
+    //int s=0;
+    for (int i=1;i<=a;i++){
+        count = count*i;
+        //s++;
+    }
+    //System.out.println(s);
+    System.out.print(count);
+}
+}
