@@ -1,5 +1,40 @@
 import pymysql
 
+# 建立資料庫連接
+db = pymysql.connect("localhost", "帳號", "密碼", "mybooks", charset="utf8")
+cursor = db.cursor()  # 建立cursor物件
+# 執行SQL指令SELECT
+cursor.execute("SELECT * FROM books")
+data = cursor.fetchall()   # 取出所有記錄
+# 取出查詢結果的每一筆記錄
+for row in data:
+    print(row[0], row[1])
+db.close()  # 關閉資料庫連接
+-----------------------------------------------------------------------------------------------------------------------------------------------
+import pymysql
+
+book = "P0004,Python程式設計,陳會安,550,程式設計,2018-01-01"
+f = book.split(",")
+
+# 建立資料庫連接
+db = pymysql.connect("localhost", "帳號", "密碼", "mybooks", charset="utf8")
+cursor = db.cursor()  # 建立cursor物件
+# 建立SQL指令INSERT字串
+sql = """INSERT INTO books (id,title,author,price,category,pubdate)
+         VALUES ('{0}','{1}','{2}',{3},'{4}','{5}')"""
+sql = sql.format(f[0], f[1], f[2], f[3], f[4], f[5])
+print(sql)
+try:
+    cursor.execute(sql)   # 執行SQL指令
+    db.commit() # 確認交易
+    print("新增一筆記錄...")
+except:
+    db.rollback() # 回復交易 
+    print("新增記錄失敗...")
+db.close()  # 關閉資料庫連接
+-----------------------------------------------------------------------------------------------------------------------------------------------
+import pymysql
+
 d = {
    "id": "P0005",
    "title": "Node.js程式設計",
@@ -25,3 +60,64 @@ except:
     db.rollback() # 回復交易 
     print("新增記錄失敗...")
 db.close()  # 關閉資料庫連接
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- 導出 mybooks 的資料庫結構
+CREATE DATABASE IF NOT EXISTS `DATABASE資料庫一` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `mybooks`;
+
+-- 導出  表 mybooks.books 結構
+CREATE TABLE IF NOT EXISTS `table桌子` (
+  `id` char(5) NOT NULL,
+  `title` varchar(30) DEFAULT NULL,
+  `author` varchar(15) DEFAULT NULL,
+  `price` decimal(10,0) DEFAULT NULL,
+  `category` varchar(30) DEFAULT NULL,
+  `pubdate` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- 正在導出表  mybooks.books 的資料：6 rows
+/*!40000 ALTER TABLE `books` DISABLE KEYS */;
+INSERT INTO `TABLE桌子` (`id`, `title`, `author`, `price`, `category`, `pubdate`) VALUES
+	('D0001', 'Access入門與實作', '陳會安', 450, '資料庫', '2016-06-01'),
+	('P0001', '資料結構 - 使用C語言', '陳會安', 520, '資料結構', '2016-04-01'),
+	('P0002', 'Java程式設計入門與實作', '陳會安', 550, '程式設計', '2017-07-01'),
+	('P0003', 'Scratch+fChart程式邏輯訓練', '陳會安', 350, '程式設計', '2017-04-01'),
+	('W0001', 'PHP與MySQL入門與實作', '陳會安', 550, '網頁設計', '2016-09-01'),
+	('W0002', 'jQuery Mobile與Bootstrap網頁設計', '陳會安', 500, '網頁設計', '2017-10-01');
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- 導出 myquotes 的資料庫結構
+CREATE DATABASE IF NOT EXISTS `myquotes` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `myquotes`;
+
+-- 導出  表 myquotes.quotes 結構
+CREATE TABLE IF NOT EXISTS `quotes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `quote` varchar(250) DEFAULT NULL,
+  `author` varchar(50) DEFAULT NULL,
+  `createdate` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
